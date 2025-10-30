@@ -1,6 +1,6 @@
 baseURL = 'https://hthanh12.github.io/'
 languageCode = 'en-us'
-title = 'My New Hugo Site'
+title = 'My New Hugo 1'
 theme = 'PaperMod'
 [caches]
   [caches.images]
