@@ -20,6 +20,7 @@ params:
   ShowToc: true
   TocOpen: true
   searchHidden: true
+
   cover:
     linkFullImages: true
   homeInfoParams:
@@ -31,6 +32,10 @@ params:
       url: "https://github.com/hthanh12"
     - name: "linkedin"
       url: "https://www.linkedin.com/in/hthanh12/"
+    - name: "cv"
+      url: "https://www.notion.so/hthanh12/Hoang-Thanh-s-Resume-c69bccf2f85643cd8eb3193f5f1204fc"
+    - name: "email"
+      url: "mailto:nghoangthanh1212@gmail.com"
 
   # profileMode:
   #   enabled: true
