@@ -1,0 +1,53 @@
+baseURL: "https://hthanh12.github.io/"
+languageCode: "en-us"
+title: "hthanh12's Blog"
+theme: "PaperMod"
+
+caches:
+  images:
+    dir: ":cacheDir/images"
+
+params:
+  ShowPostNavLinks: true
+  ShowReadingTime: true
+  ShowAboutInSidebar: true
+  ShowNewsletterInSidebar: false
+  ShowSearchInSidebar: true
+  ShowTagsInSidebar: true
+  ShowCategoriesInSidebar: true
+  ShowRecentPostsInSidebar: true
+  ShowBreadCrumbs: true
+  ShowToc: true
+  TocOpen: true
+  searchHidden: true
+  cover:
+    linkFullImages: true
+  homeInfoParams:
+    Title: "Hi there 👋"
+    Content: "I’m Thanh Nguyen Hoang, but you can call me Frank — it’s my English name. Some people online know me as hthanh12. \n \n I’m a web developer who loves building things for the web. Here, I share what I’ve learned about coding, technology, and life."
+
+  socialIcons:
+    - name: "github"
+      url: "https://github.com/hthanh12"
+    - name: "linkedin"
+      url: "https://www.linkedin.com/in/hthanh12/"
+
+  # profileMode:
+  #   enabled: true
+  #   title: "aaaa" # optional default will be site title
+  #   subtitle: "This is subtitle"
+  #   # imageUrl: "<image link>" # optional
+  #   # imageTitle: "<title of image as alt>" # optional
+  #   imageWidth: 120 # custom size
+  #   imageHeight: 120 # custom size
+  #   buttons:
+  #     - name: Archive
+  #       url: "/archive"
+  #     - name: Github
+  #       url: "https://github.com/"
+
+  # socialIcons:
+  #   - name: "github"
+  #     url: "https://github.com/hthanh12"
+  #   - name: "linkedin"
+  #     url: "https://www.linkedin.com/in/hthanh12/"

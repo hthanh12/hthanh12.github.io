@@ -1,19 +1,66 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>My New Hugo 1</title>
-    <link>http://localhost:1313/</link>
-    <description>Recent content on My New Hugo 1</description>
+    <title>hthanh12&#39;s Blog</title>
+    <link>https://hthanh12.github.io/</link>
+    <description>Recent content on hthanh12&#39;s Blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 Oct 2025 22:54:59 +0700</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 30 Oct 2025 16:45:00 +0000</lastBuildDate>
+    <atom:link href="https://hthanh12.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>My First Post</title>
-      <link>http://localhost:1313/posts/my-first-post/</link>
-      <pubDate>Thu, 30 Oct 2025 22:54:59 +0700</pubDate>
-      <guid>http://localhost:1313/posts/my-first-post/</guid>
-      <description></description>
+      <title>Understanding MIME Types and File Extensions</title>
+      <link>https://hthanh12.github.io/posts/my-first-post/</link>
+      <pubDate>Thu, 30 Oct 2025 16:45:00 +0000</pubDate>
+      <guid>https://hthanh12.github.io/posts/my-first-post/</guid>
+      <description>&lt;p&gt;Have you ever uploaded a file and the browser didn’t open it correctly — maybe it downloaded instead of showing up on the screen?&lt;br&gt;
+That usually happens because of something called a &lt;strong&gt;MIME type&lt;/strong&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;-what-is-a-mime-type&#34;&gt;🧠 What Is a MIME Type?&lt;/h2&gt;
+&lt;p&gt;A &lt;strong&gt;MIME type&lt;/strong&gt; (short for &lt;em&gt;Multipurpose Internet Mail Extensions&lt;/em&gt;) tells the browser what kind of file it’s dealing with.&lt;br&gt;
+For example:&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th&gt;File Type&lt;/th&gt;
+          &lt;th&gt;MIME Type&lt;/th&gt;
+          &lt;th&gt;Extension&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+      &lt;tr&gt;
+          &lt;td&gt;HTML page&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;text/html&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;.html&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;CSS file&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;text/css&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;.css&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JavaScript file&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;application/javascript&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;.js&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;JPEG image&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;image/jpeg&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;.jpg&lt;/code&gt;, &lt;code&gt;.jpeg&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;PDF document&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;application/pdf&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;.pdf&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+          &lt;td&gt;Word document&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;application/vnd.openxmlformats-officedocument.wordprocessingml.document&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;.docx&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;When your web server sends a file, it includes a header like this:&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
