@@ -20,9 +20,18 @@ params:
   ShowToc: true
   TocOpen: true
   searchHidden: true
-
+  favicon: "images/favicon.ico"
   cover:
     linkFullImages: true
+  main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: 1
+    - identifier: introduce
+      name: Introduce
+      url: /introduce/
+      weight: 2
   homeInfoParams:
     Title: "Hi there 👋"
     Content: "I’m Thanh Nguyen Hoang, but you can call me Frank — it’s my English name. Some people online know me as hthanh12. \n \n I’m a web developer who loves building things for the web. Here, I share what I’ve learned about coding, technology, and life."
@@ -36,8 +45,22 @@ params:
       url: "https://www.notion.so/hthanh12/Hoang-Thanh-s-Resume-c69bccf2f85643cd8eb3193f5f1204fc"
     - name: "email"
       url: "mailto:nghoangthanh1212@gmail.com"
-
-  # profileMode:
+menu:
+  main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: 1
+    - identifier: introduce
+      name: Introduce
+      url: /introduce/
+      weight: 2
+    - identifier: archive
+      name: Archive
+      url: /archive/
+      weight:
+        5
+        # profileMode:
   #   enabled: true
   #   title: "aaaa" # optional default will be site title
   #   subtitle: "This is subtitle"
