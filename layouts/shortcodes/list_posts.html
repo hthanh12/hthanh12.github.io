@@ -5,3 +5,30 @@
     </li>
     {{ end }}
 </ul>
+
+
+<!-- {{/* Group posts by Year and Month */}}
+{{ $posts := site.RegularPages.ByDate.Reverse }}
+{{ $lastYear := "" }}
+{{ $lastMonth := "" }}
+
+{{ range $posts }}
+{{ $year := .Date.Format "2006" }}
+{{ $month := .Date.Format "January" }}
+
+{{ if or (ne $year $lastYear) (ne $month $lastMonth) }}
+{{ if ne $lastMonth "" }}
+</ul>
+{{ end }}
+<h2>{{ $month }} {{ $year }}</h2>
+<ul>
+    {{ $lastYear = $year }}
+    {{ $lastMonth = $month }}
+    {{ end }}
+
+    <li>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <small>({{ .Date.Format "Jan 02, 2006" }})</small>
+    </li>
+    {{ end }}
+</ul> -->

@@ -2,29 +2,48 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://hthanh12.github.io/</loc>
+    <loc>http://localhost:1313/categories/</loc>
+    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/codec/</loc>
+    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/compression/</loc>
+    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/media/</loc>
+    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/media-tech-deep-dive/</loc>
+    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/the-secret-trade-off-in-video/</loc>
+    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/video/</loc>
+    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/mimetype/</loc>
     <lastmod>2025-10-30T16:45:00+00:00</lastmod>
   </url><url>
-    <loc>https://hthanh12.github.io/tags/mimetype/</loc>
+    <loc>http://localhost:1313/tags/programming/</loc>
     <lastmod>2025-10-30T16:45:00+00:00</lastmod>
   </url><url>
-    <loc>https://hthanh12.github.io/posts/</loc>
+    <loc>http://localhost:1313/posts/my-first-post/</loc>
     <lastmod>2025-10-30T16:45:00+00:00</lastmod>
   </url><url>
-    <loc>https://hthanh12.github.io/tags/programming/</loc>
+    <loc>http://localhost:1313/tags/web/</loc>
     <lastmod>2025-10-30T16:45:00+00:00</lastmod>
   </url><url>
-    <loc>https://hthanh12.github.io/tags/</loc>
-    <lastmod>2025-10-30T16:45:00+00:00</lastmod>
-  </url><url>
-    <loc>https://hthanh12.github.io/posts/my-first-post/</loc>
-    <lastmod>2025-10-30T16:45:00+00:00</lastmod>
-  </url><url>
-    <loc>https://hthanh12.github.io/tags/web/</loc>
-    <lastmod>2025-10-30T16:45:00+00:00</lastmod>
-  </url><url>
-    <loc>https://hthanh12.github.io/archive/</loc>
-  </url><url>
-    <loc>https://hthanh12.github.io/categories/</loc>
+    <loc>http://localhost:1313/archive/</loc>
   </url>
 </urlset>

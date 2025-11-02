@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Posts on hthanh12&#39;s Blog</title>
-    <link>https://hthanh12.github.io/posts/</link>
-    <description>Recent content in Posts on hthanh12&#39;s Blog</description>
+    <title>Posts on hthanh12&#39;s blog</title>
+    <link>http://localhost:1313/posts/</link>
+    <description>Recent content in Posts on hthanh12&#39;s blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 Oct 2025 16:45:00 +0000</lastBuildDate>
-    <atom:link href="https://hthanh12.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Nov 2025 16:56:43 +0700</lastBuildDate>
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision</title>
+      <link>http://localhost:1313/posts/the-secret-trade-off-in-video/</link>
+      <pubDate>Sun, 02 Nov 2025 16:56:43 +0700</pubDate>
+      <guid>http://localhost:1313/posts/the-secret-trade-off-in-video/</guid>
+      <description>A deep look at how video codecs balance bits, motion, and human vision.</description>
+    </item>
     <item>
       <title>Understanding MIME Types and File Extensions</title>
-      <link>https://hthanh12.github.io/posts/my-first-post/</link>
+      <link>http://localhost:1313/posts/my-first-post/</link>
       <pubDate>Thu, 30 Oct 2025 16:45:00 +0000</pubDate>
-      <guid>https://hthanh12.github.io/posts/my-first-post/</guid>
+      <guid>http://localhost:1313/posts/my-first-post/</guid>
       <description>&lt;p&gt;Have you ever uploaded a file and the browser didn’t open it correctly — maybe it downloaded instead of showing up on the screen?&lt;br&gt;
 That usually happens because of something called a &lt;strong&gt;MIME type&lt;/strong&gt;.&lt;/p&gt;
 &lt;hr&gt;

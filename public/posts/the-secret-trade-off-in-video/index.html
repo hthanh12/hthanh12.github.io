@@ -5,11 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="noindex, nofollow">
-<title>Posts | hthanh12&#39;s blog</title>
-<meta name="keywords" content="">
-<meta name="description" content="Posts - hthanh12&#39;s blog">
+<title>The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision | hthanh12&#39;s blog</title>
+<meta name="keywords" content="video, codec, compression, media">
+<meta name="description" content="A deep look at how video codecs balance bits, motion, and human vision.">
 <meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/posts/">
+<link rel="canonical" href="http://localhost:1313/posts/the-secret-trade-off-in-video/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
 <link rel="icon" href="http://localhost:1313/favicon.ico">
 <link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
@@ -18,8 +18,7 @@
 <link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/the-secret-trade-off-in-video/">
 <noscript>
     <style>
         #theme-toggle,
@@ -73,7 +72,7 @@
 
 </script>
 </head>
-<body class="list" id="top">
+<body id="top">
     <header class="header">
     <nav class="nav">
         <div class="logo">
@@ -125,44 +124,125 @@
         </ul>
     </nav>
 </header>
-<main class="main"> 
-<header class="page-header"><div class="breadcrumbs"><a href="http://localhost:1313/">Home</a></div>
-  <h1>
-    Posts
-  </h1>
-</header>
+<main class="main">
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>When you watch a crisp 4K video online, it’s easy to forget how much math, motion analysis, and trickery are happening behind the scenes.
-Every second of video is a negotiation between bits, motion, and your eyes — and the deal is never perfect.
-🎞️ The Real Job of a Codec A video codec (like H.264, HEVC, or AV1) doesn’t just compress video — it tries to predict what your eyes will notice.
-It keeps what’s important and throws away what you probably won’t see.
-...</p>
-  </div>
-  <footer class="entry-footer"><span title='2025-11-02 16:56:43 +0700 +07'>November 2, 2025</span>&nbsp;·&nbsp;<span>3 min</span></footer>
-  <a class="entry-link" aria-label="post link to The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision" href="http://localhost:1313/posts/the-secret-trade-off-in-video/"></a>
-</article>
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision
+    </h1>
+    <div class="post-description">
+      A deep look at how video codecs balance bits, motion, and human vision.
+    </div>
+    <div class="post-meta"><span title='2025-11-02 16:56:43 +0700 +07'>November 2, 2025</span>&nbsp;·&nbsp;<span>3 min</span>
 
-<article class="post-entry"> 
-  <header class="entry-header">
-    <h2 class="entry-hint-parent">Understanding MIME Types and File Extensions
-    </h2>
-  </header>
-  <div class="entry-content">
-    <p>Have you ever uploaded a file and the browser didn’t open it correctly — maybe it downloaded instead of showing up on the screen?
-That usually happens because of something called a MIME type.
-🧠 What Is a MIME Type? A MIME type (short for Multipurpose Internet Mail Extensions) tells the browser what kind of file it’s dealing with.
-For example:
-File Type MIME Type Extension HTML page text/html .html CSS file text/css .css JavaScript file application/javascript .js JPEG image image/jpeg .jpg, .jpeg PDF document application/pdf .pdf Word document application/vnd.openxmlformats-officedocument.wordprocessingml.document .docx When your web server sends a file, it includes a header like this:
-...</p>
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#-the-real-job-of-a-codec" aria-label="🎞️ The Real Job of a Codec">🎞️ The Real Job of a Codec</a></li>
+                <li>
+                    <a href="#-the-balancing-act" aria-label="⚙️ The Balancing Act">⚙️ The Balancing Act</a></li>
+                <li>
+                    <a href="#-how-your-eyes-help-the-codec-cheat" aria-label="👁️ How Your Eyes Help the Codec Cheat">👁️ How Your Eyes Help the Codec Cheat</a></li>
+                <li>
+                    <a href="#-the-constant-rate-factor-crf-myth" aria-label="🧮 The Constant Rate Factor (CRF) Myth">🧮 The Constant Rate Factor (CRF) Myth</a></li>
+                <li>
+                    <a href="#-so-whats-the-secret" aria-label="🧠 So What’s the Secret?">🧠 So What’s the Secret?</a></li>
+                <li>
+                    <a href="#-final-thought" aria-label="💡 Final Thought">💡 Final Thought</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>When you watch a crisp 4K video online, it’s easy to forget how much math, motion analysis, and trickery are happening behind the scenes.<br>
+Every second of video is a negotiation between <strong>bits, motion, and your eyes</strong> — and the deal is never perfect.</p>
+<hr>
+<h2 id="-the-real-job-of-a-codec">🎞️ The Real Job of a Codec<a hidden class="anchor" aria-hidden="true" href="#-the-real-job-of-a-codec">#</a></h2>
+<p>A video codec (like H.264, HEVC, or AV1) doesn’t just <em>compress</em> video — it tries to <strong>predict</strong> what your eyes will notice.<br>
+It keeps what’s important and throws away what you <em>probably</em> won’t see.</p>
+<p>In simple terms:</p>
+<ul>
+<li><strong>Bits</strong> = how much data we can afford to spend</li>
+<li><strong>Motion</strong> = how much the image changes from frame to frame</li>
+<li><strong>Human vision</strong> = what details our brains will forgive if they’re missing</li>
+</ul>
+<p>A good codec balances these three like a tightrope walker — one misstep, and you’ll notice.</p>
+<hr>
+<h2 id="-the-balancing-act">⚙️ The Balancing Act<a hidden class="anchor" aria-hidden="true" href="#-the-balancing-act">#</a></h2>
+<p>Let’s imagine a camera panning across a forest.<br>
+There’s tons of detail — trees, leaves, sunlight. The encoder has to decide:</p>
+<blockquote>
+<p>“Should I spend my bits describing every leaf? Or use motion vectors to <em>guess</em> how the trees move?”</p>
+</blockquote>
+<p>It usually picks the second option.</p>
+<p>That’s <strong>motion compensation</strong> — the trick of saying “this part of the frame looks like that part, just moved 5 pixels right.”<br>
+Instead of storing new data, it stores instructions.</p>
+<p>But here’s the catch:</p>
+<ul>
+<li>When motion is predictable → compression looks great.</li>
+<li>When motion is chaotic (like confetti or water) → artifacts show up fast.</li>
+</ul>
+<hr>
+<h2 id="-how-your-eyes-help-the-codec-cheat">👁️ How Your Eyes Help the Codec Cheat<a hidden class="anchor" aria-hidden="true" href="#-how-your-eyes-help-the-codec-cheat">#</a></h2>
+<p>Your brain fills in gaps.</p>
+<p>Codecs exploit this by using <strong>psychovisual models</strong> — mathematical rules that mimic how humans see:</p>
+<ul>
+<li>We’re more sensitive to motion than to static detail.</li>
+<li>We notice brightness changes more than color shifts.</li>
+<li>We focus on the center of the frame, not the edges.</li>
+</ul>
+<p>So a codec will <strong>blur, simplify, or even drop data</strong> where your eyes won’t care — saving precious bits for what matters.</p>
+<hr>
+<h2 id="-the-constant-rate-factor-crf-myth">🧮 The Constant Rate Factor (CRF) Myth<a hidden class="anchor" aria-hidden="true" href="#-the-constant-rate-factor-crf-myth">#</a></h2>
+<p>Many encoders offer a “quality slider” (like CRF in FFmpeg).<br>
+Most people think it’s linear — lower CRF = better quality.<br>
+But in reality, it’s about <em>where the trade-offs</em> happen.</p>
+<p>A CRF of 18 vs 23 might look similar on a static shot, but during fast motion, the difference explodes.<br>
+Because the encoder must decide, frame by frame, how much to trust motion prediction vs. raw data.</p>
+<hr>
+<h2 id="-so-whats-the-secret">🧠 So What’s the Secret?<a hidden class="anchor" aria-hidden="true" href="#-so-whats-the-secret">#</a></h2>
+<p>Compression isn’t just saving space — it’s about <strong>trust</strong>.</p>
+<ul>
+<li>The codec trusts motion estimation to fill gaps.</li>
+<li>The encoder trusts your eyes not to notice tiny lies.</li>
+<li>The system trusts bandwidth to deliver frames fast enough.</li>
+</ul>
+<p>If any of those break, you see it — in smears, blocks, or ghosting trails.</p>
+<hr>
+<h2 id="-final-thought">💡 Final Thought<a hidden class="anchor" aria-hidden="true" href="#-final-thought">#</a></h2>
+<p>The next time you see a perfectly smooth video stream, remember:
+You’re not watching “reality.”<br>
+You’re watching a <strong>mathematical illusion</strong>, tuned for your vision, your screen, and your patience.</p>
+<p>And that illusion — balancing bits, motion, and perception — is one of the most beautiful hacks in computer science.</p>
+
+
   </div>
-  <footer class="entry-footer"><span title='2025-10-30 16:45:00.69533 +0000 UTC'>October 30, 2025</span>&nbsp;·&nbsp;<span>2 min</span></footer>
-  <a class="entry-link" aria-label="post link to Understanding MIME Types and File Extensions" href="http://localhost:1313/posts/my-first-post/"></a>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/video/">Video</a></li>
+      <li><a href="http://localhost:1313/tags/codec/">Codec</a></li>
+      <li><a href="http://localhost:1313/tags/compression/">Compression</a></li>
+      <li><a href="http://localhost:1313/tags/media/">Media</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="http://localhost:1313/posts/my-first-post/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Understanding MIME Types and File Extensions</span>
+  </a>
+</nav>
+
+  </footer>
 </article>
     </main>
     

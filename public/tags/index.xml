@@ -1,32 +1,60 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Tags on hthanh12&#39;s Blog</title>
-    <link>https://hthanh12.github.io/tags/</link>
-    <description>Recent content in Tags on hthanh12&#39;s Blog</description>
+    <title>Tags on hthanh12&#39;s blog</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on hthanh12&#39;s blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 30 Oct 2025 16:45:00 +0000</lastBuildDate>
-    <atom:link href="https://hthanh12.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 02 Nov 2025 16:56:43 +0700</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Codec</title>
+      <link>http://localhost:1313/tags/codec/</link>
+      <pubDate>Sun, 02 Nov 2025 16:56:43 +0700</pubDate>
+      <guid>http://localhost:1313/tags/codec/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Compression</title>
+      <link>http://localhost:1313/tags/compression/</link>
+      <pubDate>Sun, 02 Nov 2025 16:56:43 +0700</pubDate>
+      <guid>http://localhost:1313/tags/compression/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Media</title>
+      <link>http://localhost:1313/tags/media/</link>
+      <pubDate>Sun, 02 Nov 2025 16:56:43 +0700</pubDate>
+      <guid>http://localhost:1313/tags/media/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Video</title>
+      <link>http://localhost:1313/tags/video/</link>
+      <pubDate>Sun, 02 Nov 2025 16:56:43 +0700</pubDate>
+      <guid>http://localhost:1313/tags/video/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Mimetype</title>
-      <link>https://hthanh12.github.io/tags/mimetype/</link>
+      <link>http://localhost:1313/tags/mimetype/</link>
       <pubDate>Thu, 30 Oct 2025 16:45:00 +0000</pubDate>
-      <guid>https://hthanh12.github.io/tags/mimetype/</guid>
+      <guid>http://localhost:1313/tags/mimetype/</guid>
       <description></description>
     </item>
     <item>
       <title>Programming</title>
-      <link>https://hthanh12.github.io/tags/programming/</link>
+      <link>http://localhost:1313/tags/programming/</link>
       <pubDate>Thu, 30 Oct 2025 16:45:00 +0000</pubDate>
-      <guid>https://hthanh12.github.io/tags/programming/</guid>
+      <guid>http://localhost:1313/tags/programming/</guid>
       <description></description>
     </item>
     <item>
       <title>Web</title>
-      <link>https://hthanh12.github.io/tags/web/</link>
+      <link>http://localhost:1313/tags/web/</link>
       <pubDate>Thu, 30 Oct 2025 16:45:00 +0000</pubDate>
-      <guid>https://hthanh12.github.io/tags/web/</guid>
+      <guid>http://localhost:1313/tags/web/</guid>
       <description></description>
     </item>
   </channel>
