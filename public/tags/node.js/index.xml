@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Node.js on hthanh12&#39;s blog</title>
-    <link>http://localhost:1313/tags/node.js/</link>
+    <link>https://hthanh12.github.io/tags/node.js/</link>
     <description>Recent content in Node.js on hthanh12&#39;s blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 06 Nov 2025 23:40:28 +0700</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/node.js/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://hthanh12.github.io/tags/node.js/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HeadObjectCommand vs GetObjectCommand in AWS SDK</title>
-      <link>http://localhost:1313/posts/headobject-vs-getobject/</link>
+      <link>https://hthanh12.github.io/posts/headobject-vs-getobject/</link>
       <pubDate>Thu, 06 Nov 2025 23:40:28 +0700</pubDate>
-      <guid>http://localhost:1313/posts/headobject-vs-getobject/</guid>
+      <guid>https://hthanh12.github.io/posts/headobject-vs-getobject/</guid>
       <description>Understand the difference between HeadObjectCommand and GetObjectCommand in AWS SDK for JavaScript (v3).</description>
     </item>
   </channel>

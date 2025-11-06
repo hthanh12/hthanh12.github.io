@@ -1,6 +1,5 @@
 +++
 date = '2025-11-06T23:40:28+07:00'
-draft = true
 title = "HeadObjectCommand vs GetObjectCommand in AWS SDK"
 description = "Understand the difference between HeadObjectCommand and GetObjectCommand in AWS SDK for JavaScript (v3)."
 tags = ["AWS", "S3", "Node.js", "Backend", "Dev Notes", "Media Service"]
