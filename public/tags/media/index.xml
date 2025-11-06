@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Media on hthanh12&#39;s blog</title>
-    <link>https://hthanh12.github.io/tags/media/</link>
+    <link>http://localhost:1313/tags/media/</link>
     <description>Recent content in Media on hthanh12&#39;s blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 02 Nov 2025 16:56:43 +0700</lastBuildDate>
-    <atom:link href="https://hthanh12.github.io/tags/media/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/media/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision</title>
-      <link>https://hthanh12.github.io/posts/the-secret-trade-off-in-video/</link>
+      <link>http://localhost:1313/posts/the-secret-trade-off-in-video/</link>
       <pubDate>Sun, 02 Nov 2025 16:56:43 +0700</pubDate>
-      <guid>https://hthanh12.github.io/posts/the-secret-trade-off-in-video/</guid>
+      <guid>http://localhost:1313/posts/the-secret-trade-off-in-video/</guid>
       <description>A deep look at how video codecs balance bits, motion, and human vision.</description>
     </item>
   </channel>

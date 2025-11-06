@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Mimetype on hthanh12&#39;s blog</title>
-    <link>https://hthanh12.github.io/tags/mimetype/</link>
+    <link>http://localhost:1313/tags/mimetype/</link>
     <description>Recent content in Mimetype on hthanh12&#39;s blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 30 Oct 2025 16:45:00 +0000</lastBuildDate>
-    <atom:link href="https://hthanh12.github.io/tags/mimetype/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/mimetype/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Understanding MIME Types and File Extensions</title>
-      <link>https://hthanh12.github.io/posts/my-first-post/</link>
+      <link>http://localhost:1313/posts/my-first-post/</link>
       <pubDate>Thu, 30 Oct 2025 16:45:00 +0000</pubDate>
-      <guid>https://hthanh12.github.io/posts/my-first-post/</guid>
+      <guid>http://localhost:1313/posts/my-first-post/</guid>
       <description>&lt;p&gt;Have you ever uploaded a file and the browser didn’t open it correctly — maybe it downloaded instead of showing up on the screen?&lt;br&gt;
 That usually happens because of something called a &lt;strong&gt;MIME type&lt;/strong&gt;.&lt;/p&gt;
 &lt;hr&gt;
