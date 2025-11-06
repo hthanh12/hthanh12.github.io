@@ -8,6 +8,7 @@ caches:
     dir: ":cacheDir/images"
 
 params:
+  favicon: "images/favicon.ico"
   ShowPostNavLinks: true
   ShowReadingTime: true
   ShowAboutInSidebar: true
@@ -20,9 +21,6 @@ params:
   ShowToc: true
   TocOpen: true
   searchHidden: true
-  favicon: "images/favicon.ico"
-  cover:
-    linkFullImages: true
   main:
     - identifier: home
       name: Home
@@ -54,9 +52,9 @@ menu:
       name: Home
       url: /
       weight: 1
-    - identifier: introduce
-      name: Introduce
-      url: /introduce/
+    - identifier: about
+      name: About Me
+      url: /about/
       weight: 2
     - identifier: tags
       name: Tags
@@ -65,7 +63,8 @@ menu:
     - identifier: archive
       name: Archive
       url: /archive/
-      weight: 44
+      weight:
+        4
 
         # profileMode:
   #   enabled: true

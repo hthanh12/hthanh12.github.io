@@ -44,6 +44,8 @@
     <loc>http://localhost:1313/tags/web/</loc>
     <lastmod>2025-10-30T16:45:00+00:00</lastmod>
   </url><url>
+    <loc>http://localhost:1313/about/</loc>
+  </url><url>
     <loc>http://localhost:1313/archive/</loc>
   </url>
 </urlset>
