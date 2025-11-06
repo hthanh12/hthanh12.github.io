@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="noindex, nofollow">
+<title>HeadObjectCommand vs GetObjectCommand in AWS SDK | hthanh12&#39;s blog</title>
+<meta name="keywords" content="AWS, S3, Node.js, Backend, Dev Notes, Media Service">
+<meta name="description" content="Understand the difference between HeadObjectCommand and GetObjectCommand in AWS SDK for JavaScript (v3).">
+<meta name="author" content="">
+<link rel="canonical" href="http://localhost:1313/posts/headobject-vs-getobject/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="http://localhost:1313/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
+<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
+<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/headobject-vs-getobject/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="http://localhost:1313/" accesskey="h" title="hthanh12&#39;s blog (Alt + H)">hthanh12&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="http://localhost:1313/" title="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/about/" title="About Me">
+                    <span>About Me</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="http://localhost:1313/archive/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      HeadObjectCommand vs GetObjectCommand in AWS SDK
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="35" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h1>
+    <div class="post-description">
+      Understand the difference between HeadObjectCommand and GetObjectCommand in AWS SDK for JavaScript (v3).
+    </div>
+    <div class="post-meta"><span title='2025-11-06 23:40:28 +0700 +07'>November 6, 2025</span>&nbsp;·&nbsp;<span>3 min</span>
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#-introduction" aria-label="🧠 Introduction">🧠 Introduction</a></li>
+                <li>
+                    <a href="#-headobjectcommand" aria-label="⚙️ HeadObjectCommand">⚙️ HeadObjectCommand</a><ul>
+                        
+                <li>
+                    <a href="#-example" aria-label="✅ Example">✅ Example</a></li>
+                <li>
+                    <a href="#-output-sample" aria-label="💡 Output (sample)">💡 Output (sample)</a></li></ul>
+                </li>
+                <li>
+                    <a href="#-getobjectcommand" aria-label="📦 GetObjectCommand">📦 GetObjectCommand</a><ul>
+                        
+                <li>
+                    <a href="#-example-1" aria-label="✅ Example">✅ Example</a></li></ul>
+                </li>
+                <li>
+                    <a href="#-comparison-table" aria-label="⚖️ Comparison Table">⚖️ Comparison Table</a></li>
+                <li>
+                    <a href="#-when-to-use-which" aria-label="🧩 When to Use Which?">🧩 When to Use Which?</a></li>
+                <li>
+                    <a href="#-references" aria-label="📚 References">📚 References</a></li>
+                <li>
+                    <a href="#-summary" aria-label="🧾 Summary">🧾 Summary</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="-introduction">🧠 Introduction<a hidden class="anchor" aria-hidden="true" href="#-introduction">#</a></h2>
+<p>When working with <strong>Amazon S3</strong>, two common commands developers use are <code>HeadObjectCommand</code> and <code>GetObjectCommand</code>.<br>
+At first glance, they might seem similar — both retrieve object information — but they serve <strong>different purposes</strong>.</p>
+<p>Let’s explore how they differ and when to use each.</p>
+<hr>
+<h2 id="-headobjectcommand">⚙️ <code>HeadObjectCommand</code><a hidden class="anchor" aria-hidden="true" href="#-headobjectcommand">#</a></h2>
+<p><code>HeadObjectCommand</code> <strong>retrieves only the metadata</strong> of an S3 object, <strong>without downloading the file content</strong>.</p>
+<p>This is ideal when you just want to:</p>
+<ul>
+<li>Check if a file exists.</li>
+<li>Get metadata (like Content-Type, Content-Length, Last-Modified, ETag, etc.).</li>
+<li>Verify object accessibility or permissions.</li>
+</ul>
+<h3 id="-example">✅ Example<a hidden class="anchor" aria-hidden="true" href="#-example">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">S3Client</span>, <span style="color:#a6e22e">HeadObjectCommand</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@aws-sdk/client-s3&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s3</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">S3Client</span>({ <span style="color:#a6e22e">region</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;ap-southeast-1&#34;</span> });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">checkFileInfo() {</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">try</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">command</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">HeadObjectCommand</span>({
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">Bucket</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;my-bucket&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">Key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;example/data.json&#34;</span>,
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">response</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">s3</span>.<span style="color:#a6e22e">send</span>(<span style="color:#a6e22e">command</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;✅ Object found:&#34;</span>, <span style="color:#a6e22e">response</span>);
+</span></span><span style="display:flex;"><span>  } <span style="color:#66d9ef">catch</span> (<span style="color:#a6e22e">err</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">name</span> <span style="color:#f92672">===</span> <span style="color:#e6db74">&#34;NotFound&#34;</span>) {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;❌ Object not found&#34;</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">error</span>(<span style="color:#e6db74">&#34;⚠️ Error:&#34;</span>, <span style="color:#a6e22e">err</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">checkFileInfo</span>();
+</span></span></code></pre></div><h3 id="-output-sample">💡 Output (sample)<a hidden class="anchor" aria-hidden="true" href="#-output-sample">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;AcceptRanges&#34;</span>: <span style="color:#e6db74">&#34;bytes&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;LastModified&#34;</span>: <span style="color:#e6db74">&#34;2025-10-31T02:45:10.000Z&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;ContentLength&#34;</span>: <span style="color:#ae81ff">24987</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;ContentType&#34;</span>: <span style="color:#e6db74">&#34;application/json&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;ETag&#34;</span>: <span style="color:#e6db74">&#34;\&#34;d41d8cd98f00b204e9800998ecf8427e\&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>👉 <strong>No file data</strong> is returned — only metadata.</p>
+<hr>
+<h2 id="-getobjectcommand">📦 <code>GetObjectCommand</code><a hidden class="anchor" aria-hidden="true" href="#-getobjectcommand">#</a></h2>
+<p><code>GetObjectCommand</code> <strong>retrieves the full object</strong> (its content and metadata).<br>
+Use it when you actually need to <strong>read or process file contents</strong>.</p>
+<h3 id="-example-1">✅ Example<a hidden class="anchor" aria-hidden="true" href="#-example-1">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">S3Client</span>, <span style="color:#a6e22e">GetObjectCommand</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@aws-sdk/client-s3&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">Readable</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;stream&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s3</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">S3Client</span>({ <span style="color:#a6e22e">region</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;ap-southeast-1&#34;</span> });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">downloadFile() {</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">command</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">GetObjectCommand</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Bucket</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;my-bucket&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;example/data.json&#34;</span>,
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> { <span style="color:#a6e22e">Body</span>, <span style="color:#a6e22e">ContentType</span> } <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">s3</span>.<span style="color:#a6e22e">send</span>(<span style="color:#a6e22e">command</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;📦 Content-Type:&#34;</span>, <span style="color:#a6e22e">ContentType</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Convert stream to string (for small files)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">streamToString</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">stream</span>: <span style="color:#66d9ef">Readable</span>) <span style="color:#f92672">=&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Promise</span>((<span style="color:#a6e22e">resolve</span>, <span style="color:#a6e22e">reject</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">chunks</span>: <span style="color:#66d9ef">any</span>[] <span style="color:#f92672">=</span> [];
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">stream</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#34;data&#34;</span>, (<span style="color:#a6e22e">chunk</span>) <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">chunks</span>.<span style="color:#a6e22e">push</span>(<span style="color:#a6e22e">chunk</span>));
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">stream</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#34;end&#34;</span>, () <span style="color:#f92672">=&gt;</span> <span style="color:#a6e22e">resolve</span>(<span style="color:#a6e22e">Buffer</span>.<span style="color:#a6e22e">concat</span>(<span style="color:#a6e22e">chunks</span>).<span style="color:#a6e22e">toString</span>(<span style="color:#e6db74">&#34;utf-8&#34;</span>)));
+</span></span><span style="display:flex;"><span>      <span style="color:#a6e22e">stream</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#34;error&#34;</span>, <span style="color:#a6e22e">reject</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">content</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">streamToString</span>(<span style="color:#a6e22e">Body</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">Readable</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">&#34;📄 File Content:&#34;</span>, <span style="color:#a6e22e">content</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">downloadFile</span>();
+</span></span></code></pre></div><hr>
+<h2 id="-comparison-table">⚖️ Comparison Table<a hidden class="anchor" aria-hidden="true" href="#-comparison-table">#</a></h2>
+<table>
+  <thead>
+      <tr>
+          <th>Feature</th>
+          <th>HeadObjectCommand</th>
+          <th>GetObjectCommand</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>Purpose</td>
+          <td>Check existence / metadata</td>
+          <td>Retrieve full object</td>
+      </tr>
+      <tr>
+          <td>Downloads data</td>
+          <td>❌ No</td>
+          <td>✅ Yes</td>
+      </tr>
+      <tr>
+          <td>Typical usage</td>
+          <td>Validation, info, cache check</td>
+          <td>File reading, streaming, processing</td>
+      </tr>
+      <tr>
+          <td>Performance</td>
+          <td>Faster (metadata only)</td>
+          <td>Slower (includes full data)</td>
+      </tr>
+      <tr>
+          <td>Cost</td>
+          <td>Lower (no data transfer)</td>
+          <td>Higher (data transfer applies)</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="-when-to-use-which">🧩 When to Use Which?<a hidden class="anchor" aria-hidden="true" href="#-when-to-use-which">#</a></h2>
+<ul>
+<li>
+<p>✅ <strong>Use <code>HeadObjectCommand</code></strong><br>
+When you only need to verify if an object exists or get metadata quickly and cheaply.</p>
+</li>
+<li>
+<p>✅ <strong>Use <code>GetObjectCommand</code></strong><br>
+When you actually need the object content (to read, download, or process).</p>
+</li>
+</ul>
+<hr>
+<h2 id="-references">📚 References<a hidden class="anchor" aria-hidden="true" href="#-references">#</a></h2>
+<ul>
+<li><a href="https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/classes/headobjectcommand.html">AWS SDK for JavaScript v3 – HeadObjectCommand</a></li>
+<li><a href="https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/clients/client-s3/classes/getobjectcommand.html">AWS SDK for JavaScript v3 – GetObjectCommand</a></li>
+<li><a href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadObject.html">AWS S3 API Reference</a></li>
+</ul>
+<hr>
+<h2 id="-summary">🧾 Summary<a hidden class="anchor" aria-hidden="true" href="#-summary">#</a></h2>
+<p>In short:</p>
+<blockquote>
+<p><code>HeadObjectCommand</code> → metadata only<br>
+<code>GetObjectCommand</code> → metadata + file content</p>
+</blockquote>
+<p>Use the <strong>right command</strong> for your case to optimize performance and cost.</p>
+<hr>
+<p><em>Written by <a href="https://github.com/hthanh12">Frank Nguyen</a></em><br>
+<em>(c) 2025 — Notes from real-world AWS projects 💻)</em></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="http://localhost:1313/tags/aws/">AWS</a></li>
+      <li><a href="http://localhost:1313/tags/s3/">S3</a></li>
+      <li><a href="http://localhost:1313/tags/node.js/">Node.js</a></li>
+      <li><a href="http://localhost:1313/tags/backend/">Backend</a></li>
+      <li><a href="http://localhost:1313/tags/dev-notes/">Dev Notes</a></li>
+      <li><a href="http://localhost:1313/tags/media-service/">Media Service</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="next" href="http://localhost:1313/posts/the-secret-trade-off-in-video/">
+    <span class="title">Next »</span>
+    <br>
+    <span>The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="http://localhost:1313/">hthanh12&#39;s blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

@@ -2,6 +2,36 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>http://localhost:1313/tags/aws/</loc>
+    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/backend/</loc>
+    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/dev-notes/</loc>
+    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/headobject-vs-getobject/</loc>
+    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/media-service/</loc>
+    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/node.js/</loc>
+    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/posts/</loc>
+    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/s3/</loc>
+    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
+    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
+  </url><url>
     <loc>http://localhost:1313/categories/</loc>
     <lastmod>2025-11-02T16:56:43+07:00</lastmod>
   </url><url>
@@ -11,19 +41,10 @@
     <loc>http://localhost:1313/tags/compression/</loc>
     <lastmod>2025-11-02T16:56:43+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
-    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
-  </url><url>
     <loc>http://localhost:1313/tags/media/</loc>
     <lastmod>2025-11-02T16:56:43+07:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/categories/media-tech-deep-dive/</loc>
-    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/posts/</loc>
-    <lastmod>2025-11-02T16:56:43+07:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
     <lastmod>2025-11-02T16:56:43+07:00</lastmod>
   </url><url>
     <loc>http://localhost:1313/posts/the-secret-trade-off-in-video/</loc>

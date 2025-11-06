@@ -134,6 +134,30 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
+    <h2 class="entry-hint-parent">HeadObjectCommand vs GetObjectCommand in AWS SDK
+      <span class="entry-hint" title="Draft">
+        <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" fill="currentColor">
+          <path
+            d="M160-410v-60h300v60H160Zm0-165v-60h470v60H160Zm0-165v-60h470v60H160Zm360 580v-123l221-220q9-9 20-13t22-4q12 0 23 4.5t20 13.5l37 37q9 9 13 20t4 22q0 11-4.5 22.5T862.09-380L643-160H520Zm300-263-37-37 37 37ZM580-220h38l121-122-18-19-19-18-122 121v38Zm141-141-19-18 37 37-18-19Z" />
+        </svg>
+      </span>
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>🧠 Introduction When working with Amazon S3, two common commands developers use are HeadObjectCommand and GetObjectCommand.
+At first glance, they might seem similar — both retrieve object information — but they serve different purposes.
+Let’s explore how they differ and when to use each.
+⚙️ HeadObjectCommand HeadObjectCommand retrieves only the metadata of an S3 object, without downloading the file content.
+This is ideal when you just want to:
+Check if a file exists. Get metadata (like Content-Type, Content-Length, Last-Modified, ETag, etc.). Verify object accessibility or permissions. ✅ Example import { S3Client, HeadObjectCommand } from &#34;@aws-sdk/client-s3&#34;; const s3 = new S3Client({ region: &#34;ap-southeast-1&#34; }); async function checkFileInfo() { try { const command = new HeadObjectCommand({ Bucket: &#34;my-bucket&#34;, Key: &#34;example/data.json&#34;, }); const response = await s3.send(command); console.log(&#34;✅ Object found:&#34;, response); } catch (err) { if (err.name === &#34;NotFound&#34;) { console.log(&#34;❌ Object not found&#34;); } else { console.error(&#34;⚠️ Error:&#34;, err); } } } checkFileInfo(); 💡 Output (sample) { &#34;AcceptRanges&#34;: &#34;bytes&#34;, &#34;LastModified&#34;: &#34;2025-10-31T02:45:10.000Z&#34;, &#34;ContentLength&#34;: 24987, &#34;ContentType&#34;: &#34;application/json&#34;, &#34;ETag&#34;: &#34;\&#34;d41d8cd98f00b204e9800998ecf8427e\&#34;&#34; } 👉 No file data is returned — only metadata.
+...</p>
+  </div>
+  <footer class="entry-footer"><span title='2025-11-06 23:40:28 +0700 +07'>November 6, 2025</span>&nbsp;·&nbsp;<span>3 min</span></footer>
+  <a class="entry-link" aria-label="post link to HeadObjectCommand vs GetObjectCommand in AWS SDK" href="http://localhost:1313/posts/headobject-vs-getobject/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
     <h2 class="entry-hint-parent">The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision
     </h2>
   </header>
