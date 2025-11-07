@@ -2,31 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on hthanh12&#39;s blog</title>
-    <link>http://localhost:1313/posts/</link>
+    <link>https://hthanh12.github.io/posts/</link>
     <description>Recent content in Posts on hthanh12&#39;s blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Nov 2025 23:40:28 +0700</lastBuildDate>
-    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 07 Nov 2025 22:09:19 +0700</lastBuildDate>
+    <atom:link href="https://hthanh12.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events</title>
+      <link>https://hthanh12.github.io/posts/upload-video/</link>
+      <pubDate>Fri, 07 Nov 2025 22:09:19 +0700</pubDate>
+      <guid>https://hthanh12.github.io/posts/upload-video/</guid>
+      <description>How to build a scalable, reliable video upload system using AWS S3, pre-signed URLs, multipart uploads, and S3 event triggers — with structured logging best practices (and a sprinkle of developer humor).</description>
+    </item>
     <item>
       <title>HeadObjectCommand vs GetObjectCommand in AWS SDK</title>
-      <link>http://localhost:1313/posts/headobject-vs-getobject/</link>
+      <link>https://hthanh12.github.io/posts/headobject-vs-getobject/</link>
       <pubDate>Thu, 06 Nov 2025 23:40:28 +0700</pubDate>
-      <guid>http://localhost:1313/posts/headobject-vs-getobject/</guid>
+      <guid>https://hthanh12.github.io/posts/headobject-vs-getobject/</guid>
       <description>Understand the difference between HeadObjectCommand and GetObjectCommand in AWS SDK for JavaScript (v3).</description>
     </item>
     <item>
       <title>The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision</title>
-      <link>http://localhost:1313/posts/the-secret-trade-off-in-video/</link>
+      <link>https://hthanh12.github.io/posts/the-secret-trade-off-in-video/</link>
       <pubDate>Sun, 02 Nov 2025 16:56:43 +0700</pubDate>
-      <guid>http://localhost:1313/posts/the-secret-trade-off-in-video/</guid>
+      <guid>https://hthanh12.github.io/posts/the-secret-trade-off-in-video/</guid>
       <description>A deep look at how video codecs balance bits, motion, and human vision.</description>
     </item>
     <item>
       <title>Understanding MIME Types and File Extensions</title>
-      <link>http://localhost:1313/posts/my-first-post/</link>
+      <link>https://hthanh12.github.io/posts/my-first-post/</link>
       <pubDate>Thu, 30 Oct 2025 16:45:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/my-first-post/</guid>
+      <guid>https://hthanh12.github.io/posts/my-first-post/</guid>
       <description>&lt;p&gt;Have you ever uploaded a file and the browser didn’t open it correctly — maybe it downloaded instead of showing up on the screen?&lt;br&gt;
 That usually happens because of something called a &lt;strong&gt;MIME type&lt;/strong&gt;.&lt;/p&gt;
 &lt;hr&gt;

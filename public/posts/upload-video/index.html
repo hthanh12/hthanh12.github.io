@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events | hthanh12&#39;s blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="How to build a scalable, reliable video upload system using AWS S3, pre-signed URLs, multipart uploads, and S3 event triggers — with structured logging best practices (and a sprinkle of developer humor).">
+<meta name="author" content="">
+<link rel="canonical" href="https://hthanh12.github.io/posts/upload-video/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://hthanh12.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hthanh12.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hthanh12.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hthanh12.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hthanh12.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://hthanh12.github.io/posts/upload-video/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://hthanh12.github.io/posts/upload-video/">
+  <meta property="og:site_name" content="hthanh12&#39;s blog">
+  <meta property="og:title" content="Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events">
+  <meta property="og:description" content="How to build a scalable, reliable video upload system using AWS S3, pre-signed URLs, multipart uploads, and S3 event triggers — with structured logging best practices (and a sprinkle of developer humor).">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-07T22:09:19+07:00">
+    <meta property="article:modified_time" content="2025-11-07T22:09:19+07:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events">
+<meta name="twitter:description" content="How to build a scalable, reliable video upload system using AWS S3, pre-signed URLs, multipart uploads, and S3 event triggers — with structured logging best practices (and a sprinkle of developer humor).">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://hthanh12.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events",
+      "item": "https://hthanh12.github.io/posts/upload-video/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events",
+  "name": "Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events",
+  "description": "How to build a scalable, reliable video upload system using AWS S3, pre-signed URLs, multipart uploads, and S3 event triggers — with structured logging best practices (and a sprinkle of developer humor).",
+  "keywords": [
+    
+  ],
+  "articleBody": "🚀 Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events Uploading big video files is like trying to send a watermelon through a straw 🍉 — it’s slow, clunky, and often ends in frustration.\nBut fear not! With AWS S3, pre-signed URLs, and multipart uploads, we can make uploads as smooth as butter on a warm pancake 🥞.\nIn this post, I’ll show how to:\nUse Pre-signed URLs for secure direct uploads Enable Multipart Upload for speed and reliability Trigger S3 Events for post-processing And add structured logs to know exactly what’s happening — even when the servers are pretending everything’s fine 😅 🧱 1. Why Pre-Signed URLs? Uploading directly to your backend is like sending every file through one poor server who’s already overworked.\nInstead, let S3 handle it directly — your server just gives the client a ticket (the pre-signed URL).\nimport { S3Client, PutObjectCommand } from \"@aws-sdk/client-s3\"; import { getSignedUrl } from \"@aws-sdk/s3-request-presigner\"; const s3 = new S3Client({ region: \"ap-southeast-1\" }); export const getUploadUrl = async (filename: string, type: string) =\u003e { const command = new PutObjectCommand({ Bucket: process.env.S3_BUCKET, Key: `uploads/${filename}`, ContentType: type, }); const signedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 }); console.log(`[Upload] URL created for ${filename}`); return { url: signedUrl }; }; ✅ No large files clogging your backend.\n✅ No crying servers.\n✅ No random “502 Bad Gateway” at 2AM.\n🧩 2. Multipart Uploads — Faster \u0026 Resumable For large video files (\u003e100MB), single uploads often fail halfway — like watching Netflix buffer forever and then crash.\nMultipart upload splits the file into small pieces, uploads them in parallel, and then reassembles them in S3.\nconst upload = s3.upload({ Bucket: \"media-bucket\", Key: \"videos/test.mp4\", Body: file, }); upload.on(\"httpUploadProgress\", (event) =\u003e { console.log(`[Upload Progress] ${event.loaded}/${event.total}`); }); Benefits: ⚡ Faster (parallel uploads) 🧩 Resumable (in case Wi-Fi decides to go on vacation) 🧠 Easier to track each part with logs 📝 Example Logs Stage Example Log Description Request [Upload] Request started - file=test.mp4, size=420MB Upload begins Part Upload [Upload] Part 3 of 8 completed (37%) Chunk done Complete [Upload] Completed successfully - duration=52s 🎉 Success Error [Upload] Failed - network timeout part=4 😭 Retry time Logging is like journaling for your backend — it helps future-you understand what went wrong when past-you was “sure it worked”.\n⚡ 3. Triggering Processing via S3 Events Once uploaded, S3 can automatically notify your system using S3 Events.\nThis is how you trigger transcoding, thumbnail generation, or whatever dark magic your pipeline performs.\n# Example: s3-bucket.yml Events: - s3:ObjectCreated:* LambdaFunction: FunctionName: processVideo Handler: handler.process When the event fires:\nexport const handler = async (event) =\u003e { for (const record of event.Records) { const key = record.s3.object.key; console.log(`[S3 Event] New upload detected: ${key}`); } }; 🎬 “ACTION!” — that’s your cue to start processing.\n🧠 4. Monitoring \u0026 Debugging (or, “Why did it fail this time?”) In production, I always send logs to CloudWatch or Sentry.\nEach log is structured, so when things go wrong, you can actually read them instead of decoding a mystery stack trace.\n{ \"timestamp\": \"2025-11-07T14:12:00Z\", \"level\": \"info\", \"event\": \"UploadCompleted\", \"userId\": \"u123\", \"fileKey\": \"uploads/test.mp4\", \"duration\": 49.68 } 👀 With structured logs, debugging becomes detective work instead of guesswork.\n✅ Summary Component Purpose Logging Tip Pre-Signed URL Secure client upload Log URL generation + expiry Multipart Upload Reliability + speed Log part progress + retries S3 Events Auto trigger workflows Log processing start/finish Centralized Logs Debug \u0026 metrics Send to CloudWatch or Sentry 🎉 Final Thoughts If you’ve ever yelled at an upload bar that froze at 99%, this setup is for you.\nYour system will be faster, cheaper, and way more observant — and your logs will finally make sense.\nNow go build something awesome!\n(And maybe send a thank-you note to your S3 bucket for doing all the heavy lifting 💪)\n",
+  "wordCount" : "636",
+  "inLanguage": "en",
+  "datePublished": "2025-11-07T22:09:19+07:00",
+  "dateModified": "2025-11-07T22:09:19+07:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hthanh12.github.io/posts/upload-video/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "hthanh12's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hthanh12.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hthanh12.github.io/" accesskey="h" title="hthanh12&#39;s blog (Alt + H)">hthanh12&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://hthanh12.github.io/" title="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hthanh12.github.io/about/" title="About Me">
+                    <span>About Me</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hthanh12.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hthanh12.github.io/archive/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://hthanh12.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://hthanh12.github.io/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events
+    </h1>
+    <div class="post-description">
+      How to build a scalable, reliable video upload system using AWS S3, pre-signed URLs, multipart uploads, and S3 event triggers — with structured logging best practices (and a sprinkle of developer humor).
+    </div>
+    <div class="post-meta"><span title='2025-11-07 22:09:19 +0700 +07'>November 7, 2025</span>&nbsp;·&nbsp;<span>3 min</span>
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul>
+                <li>
+                    <a href="#-optimizing-video-uploads-multipart-upload-pre-signed-urls-and-s3-events" aria-label="🚀 Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events">🚀 Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events</a></li>
+                <li>
+                    <a href="#-1-why-pre-signed-urls" aria-label="🧱 1. Why Pre-Signed URLs?">🧱 1. Why Pre-Signed URLs?</a></li>
+                <li>
+                    <a href="#-2-multipart-uploads--faster--resumable" aria-label="🧩 2. Multipart Uploads — Faster &amp; Resumable">🧩 2. Multipart Uploads — Faster &amp; Resumable</a><ul>
+                        
+                <li>
+                    <a href="#benefits" aria-label="Benefits:">Benefits:</a></li>
+                <li>
+                    <a href="#-example-logs" aria-label="📝 Example Logs">📝 Example Logs</a></li></ul>
+                </li>
+                <li>
+                    <a href="#-3-triggering-processing-via-s3-events" aria-label="⚡ 3. Triggering Processing via S3 Events">⚡ 3. Triggering Processing via S3 Events</a></li>
+                <li>
+                    <a href="#-4-monitoring--debugging-or-why-did-it-fail-this-time" aria-label="🧠 4. Monitoring &amp; Debugging (or, “Why did it fail this time?”)">🧠 4. Monitoring &amp; Debugging (or, “Why did it fail this time?”)</a></li>
+                <li>
+                    <a href="#-summary" aria-label="✅ Summary">✅ Summary</a></li>
+                <li>
+                    <a href="#-final-thoughts" aria-label="🎉 Final Thoughts">🎉 Final Thoughts</a>
+                </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><h2 id="-optimizing-video-uploads-multipart-upload-pre-signed-urls-and-s3-events">🚀 Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events<a hidden class="anchor" aria-hidden="true" href="#-optimizing-video-uploads-multipart-upload-pre-signed-urls-and-s3-events">#</a></h2>
+<p>Uploading big video files is like trying to send a watermelon through a straw 🍉 — it’s slow, clunky, and often ends in frustration.<br>
+But fear not! With <strong>AWS S3</strong>, <strong>pre-signed URLs</strong>, and <strong>multipart uploads</strong>, we can make uploads as smooth as butter on a warm pancake 🥞.</p>
+<p>In this post, I’ll show how to:</p>
+<ul>
+<li>Use <strong>Pre-signed URLs</strong> for secure direct uploads</li>
+<li>Enable <strong>Multipart Upload</strong> for speed and reliability</li>
+<li>Trigger <strong>S3 Events</strong> for post-processing</li>
+<li>And add <strong>structured logs</strong> to know exactly what’s happening — even when the servers are pretending everything’s fine 😅</li>
+</ul>
+<hr>
+<h2 id="-1-why-pre-signed-urls">🧱 1. Why Pre-Signed URLs?<a hidden class="anchor" aria-hidden="true" href="#-1-why-pre-signed-urls">#</a></h2>
+<p>Uploading directly to your backend is like sending every file through one poor server who’s already overworked.<br>
+Instead, let S3 handle it directly — your server just gives the client a <strong>ticket</strong> (the pre-signed URL).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">S3Client</span>, <span style="color:#a6e22e">PutObjectCommand</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@aws-sdk/client-s3&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">getSignedUrl</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;@aws-sdk/s3-request-presigner&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">s3</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">S3Client</span>({ <span style="color:#a6e22e">region</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;ap-southeast-1&#34;</span> });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">getUploadUrl</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">filename</span>: <span style="color:#66d9ef">string</span>, <span style="color:#66d9ef">type</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">command</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">PutObjectCommand</span>({
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Bucket</span>: <span style="color:#66d9ef">process.env.S3_BUCKET</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">Key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">`uploads/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">filename</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">ContentType</span>: <span style="color:#66d9ef">type</span>,
+</span></span><span style="display:flex;"><span>  });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">signedUrl</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">getSignedUrl</span>(<span style="color:#a6e22e">s3</span>, <span style="color:#a6e22e">command</span>, { <span style="color:#a6e22e">expiresIn</span>: <span style="color:#66d9ef">3600</span> });
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`[Upload] URL created for </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">filename</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> { <span style="color:#a6e22e">url</span>: <span style="color:#66d9ef">signedUrl</span> };
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>✅ No large files clogging your backend.<br>
+✅ No crying servers.<br>
+✅ No random “502 Bad Gateway” at 2AM.</p>
+<hr>
+<h2 id="-2-multipart-uploads--faster--resumable">🧩 2. Multipart Uploads — Faster &amp; Resumable<a hidden class="anchor" aria-hidden="true" href="#-2-multipart-uploads--faster--resumable">#</a></h2>
+<p>For large video files (&gt;100MB), single uploads often fail halfway — like watching Netflix buffer forever and <em>then</em> crash.<br>
+Multipart upload splits the file into small pieces, uploads them in parallel, and then reassembles them in S3.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">upload</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">s3</span>.<span style="color:#a6e22e">upload</span>({
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Bucket</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;media-bucket&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Key</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;videos/test.mp4&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">Body</span><span style="color:#f92672">:</span> <span style="color:#a6e22e">file</span>,
+</span></span><span style="display:flex;"><span>});
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">upload</span>.<span style="color:#a6e22e">on</span>(<span style="color:#e6db74">&#34;httpUploadProgress&#34;</span>, (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`[Upload Progress] </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">loaded</span><span style="color:#e6db74">}</span><span style="color:#e6db74">/</span><span style="color:#e6db74">${</span><span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">total</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>});
+</span></span></code></pre></div><h3 id="benefits">Benefits:<a hidden class="anchor" aria-hidden="true" href="#benefits">#</a></h3>
+<ul>
+<li>⚡ Faster (parallel uploads)</li>
+<li>🧩 Resumable (in case Wi-Fi decides to go on vacation)</li>
+<li>🧠 Easier to track each part with logs</li>
+</ul>
+<h3 id="-example-logs">📝 Example Logs<a hidden class="anchor" aria-hidden="true" href="#-example-logs">#</a></h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Stage</th>
+          <th style="text-align: left">Example Log</th>
+          <th style="text-align: left">Description</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">Request</td>
+          <td style="text-align: left"><code>[Upload] Request started - file=test.mp4, size=420MB</code></td>
+          <td style="text-align: left">Upload begins</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Part Upload</td>
+          <td style="text-align: left"><code>[Upload] Part 3 of 8 completed (37%)</code></td>
+          <td style="text-align: left">Chunk done</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Complete</td>
+          <td style="text-align: left"><code>[Upload] Completed successfully - duration=52s</code></td>
+          <td style="text-align: left">🎉 Success</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Error</td>
+          <td style="text-align: left"><code>[Upload] Failed - network timeout part=4</code></td>
+          <td style="text-align: left">😭 Retry time</td>
+      </tr>
+  </tbody>
+</table>
+<p>Logging is like journaling for your backend — it helps future-you understand what went wrong when past-you was “sure it worked”.</p>
+<hr>
+<h2 id="-3-triggering-processing-via-s3-events">⚡ 3. Triggering Processing via S3 Events<a hidden class="anchor" aria-hidden="true" href="#-3-triggering-processing-via-s3-events">#</a></h2>
+<p>Once uploaded, S3 can automatically notify your system using <strong>S3 Events</strong>.<br>
+This is how you trigger transcoding, thumbnail generation, or whatever dark magic your pipeline performs.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#75715e"># Example: s3-bucket.yml</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">Events</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#ae81ff">s3:ObjectCreated:*</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">LambdaFunction</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">FunctionName</span>: <span style="color:#ae81ff">processVideo</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">Handler</span>: <span style="color:#ae81ff">handler.process</span>
+</span></span></code></pre></div><p>When the event fires:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">handler</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">async</span> (<span style="color:#a6e22e">event</span>) =&gt; {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> <span style="color:#a6e22e">record</span> <span style="color:#66d9ef">of</span> <span style="color:#a6e22e">event</span>.<span style="color:#a6e22e">Records</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">key</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">record</span>.<span style="color:#a6e22e">s3</span>.<span style="color:#a6e22e">object</span>.<span style="color:#a6e22e">key</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">console</span>.<span style="color:#a6e22e">log</span>(<span style="color:#e6db74">`[S3 Event] New upload detected: </span><span style="color:#e6db74">${</span><span style="color:#a6e22e">key</span><span style="color:#e6db74">}</span><span style="color:#e6db74">`</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>🎬 “ACTION!” — that’s your cue to start processing.</p>
+<hr>
+<h2 id="-4-monitoring--debugging-or-why-did-it-fail-this-time">🧠 4. Monitoring &amp; Debugging (or, “Why did it fail <em>this</em> time?”)<a hidden class="anchor" aria-hidden="true" href="#-4-monitoring--debugging-or-why-did-it-fail-this-time">#</a></h2>
+<p>In production, I always send logs to <strong>CloudWatch</strong> or <strong>Sentry</strong>.<br>
+Each log is structured, so when things go wrong, you can actually <em>read</em> them instead of decoding a mystery stack trace.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;timestamp&#34;</span>: <span style="color:#e6db74">&#34;2025-11-07T14:12:00Z&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;level&#34;</span>: <span style="color:#e6db74">&#34;info&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;event&#34;</span>: <span style="color:#e6db74">&#34;UploadCompleted&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;userId&#34;</span>: <span style="color:#e6db74">&#34;u123&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;fileKey&#34;</span>: <span style="color:#e6db74">&#34;uploads/test.mp4&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#34;duration&#34;</span>: <span style="color:#ae81ff">49.68</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>👀 With structured logs, debugging becomes <em>detective work</em> instead of <em>guesswork</em>.</p>
+<hr>
+<h2 id="-summary">✅ Summary<a hidden class="anchor" aria-hidden="true" href="#-summary">#</a></h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Component</th>
+          <th style="text-align: left">Purpose</th>
+          <th style="text-align: left">Logging Tip</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><strong>Pre-Signed URL</strong></td>
+          <td style="text-align: left">Secure client upload</td>
+          <td style="text-align: left">Log URL generation + expiry</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Multipart Upload</strong></td>
+          <td style="text-align: left">Reliability + speed</td>
+          <td style="text-align: left">Log part progress + retries</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>S3 Events</strong></td>
+          <td style="text-align: left">Auto trigger workflows</td>
+          <td style="text-align: left">Log processing start/finish</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><strong>Centralized Logs</strong></td>
+          <td style="text-align: left">Debug &amp; metrics</td>
+          <td style="text-align: left">Send to CloudWatch or Sentry</td>
+      </tr>
+  </tbody>
+</table>
+<hr>
+<h2 id="-final-thoughts">🎉 Final Thoughts<a hidden class="anchor" aria-hidden="true" href="#-final-thoughts">#</a></h2>
+<p>If you’ve ever yelled at an upload bar that froze at 99%, this setup is for you.<br>
+Your system will be <strong>faster</strong>, <strong>cheaper</strong>, and way more <strong>observant</strong> — and your logs will finally make sense.</p>
+<p>Now go build something awesome!<br>
+(And maybe send a thank-you note to your S3 bucket for doing all the heavy lifting 💪)</p>
+<hr>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://hthanh12.github.io/posts/headobject-vs-getobject/">
+    <span class="title">Next »</span>
+    <br>
+    <span>HeadObjectCommand vs GetObjectCommand in AWS SDK</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="https://hthanh12.github.io/">hthanh12&#39;s blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

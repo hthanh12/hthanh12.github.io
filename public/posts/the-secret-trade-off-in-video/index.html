@@ -1,24 +1,24 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <title>The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision | hthanh12&#39;s blog</title>
 <meta name="keywords" content="video, codec, compression, media">
 <meta name="description" content="A deep look at how video codecs balance bits, motion, and human vision.">
 <meta name="author" content="">
-<link rel="canonical" href="http://localhost:1313/posts/the-secret-trade-off-in-video/">
+<link rel="canonical" href="https://hthanh12.github.io/posts/the-secret-trade-off-in-video/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="icon" href="https://hthanh12.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hthanh12.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hthanh12.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hthanh12.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hthanh12.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/the-secret-trade-off-in-video/">
+<link rel="alternate" hreflang="en" href="https://hthanh12.github.io/posts/the-secret-trade-off-in-video/">
 <noscript>
     <style>
         #theme-toggle,
@@ -70,13 +70,79 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
+</script><meta property="og:url" content="https://hthanh12.github.io/posts/the-secret-trade-off-in-video/">
+  <meta property="og:site_name" content="hthanh12&#39;s blog">
+  <meta property="og:title" content="The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision">
+  <meta property="og:description" content="A deep look at how video codecs balance bits, motion, and human vision.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-02T16:56:43+07:00">
+    <meta property="article:modified_time" content="2025-11-02T16:56:43+07:00">
+    <meta property="article:tag" content="Video">
+    <meta property="article:tag" content="Codec">
+    <meta property="article:tag" content="Compression">
+    <meta property="article:tag" content="Media">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision">
+<meta name="twitter:description" content="A deep look at how video codecs balance bits, motion, and human vision.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://hthanh12.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision",
+      "item": "https://hthanh12.github.io/posts/the-secret-trade-off-in-video/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision",
+  "name": "The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision",
+  "description": "A deep look at how video codecs balance bits, motion, and human vision.",
+  "keywords": [
+    "video", "codec", "compression", "media"
+  ],
+  "articleBody": "When you watch a crisp 4K video online, it’s easy to forget how much math, motion analysis, and trickery are happening behind the scenes.\nEvery second of video is a negotiation between bits, motion, and your eyes — and the deal is never perfect.\n🎞️ The Real Job of a Codec A video codec (like H.264, HEVC, or AV1) doesn’t just compress video — it tries to predict what your eyes will notice.\nIt keeps what’s important and throws away what you probably won’t see.\nIn simple terms:\nBits = how much data we can afford to spend Motion = how much the image changes from frame to frame Human vision = what details our brains will forgive if they’re missing A good codec balances these three like a tightrope walker — one misstep, and you’ll notice.\n⚙️ The Balancing Act Let’s imagine a camera panning across a forest.\nThere’s tons of detail — trees, leaves, sunlight. The encoder has to decide:\n“Should I spend my bits describing every leaf? Or use motion vectors to guess how the trees move?”\nIt usually picks the second option.\nThat’s motion compensation — the trick of saying “this part of the frame looks like that part, just moved 5 pixels right.”\nInstead of storing new data, it stores instructions.\nBut here’s the catch:\nWhen motion is predictable → compression looks great. When motion is chaotic (like confetti or water) → artifacts show up fast. 👁️ How Your Eyes Help the Codec Cheat Your brain fills in gaps.\nCodecs exploit this by using psychovisual models — mathematical rules that mimic how humans see:\nWe’re more sensitive to motion than to static detail. We notice brightness changes more than color shifts. We focus on the center of the frame, not the edges. So a codec will blur, simplify, or even drop data where your eyes won’t care — saving precious bits for what matters.\n🧮 The Constant Rate Factor (CRF) Myth Many encoders offer a “quality slider” (like CRF in FFmpeg).\nMost people think it’s linear — lower CRF = better quality.\nBut in reality, it’s about where the trade-offs happen.\nA CRF of 18 vs 23 might look similar on a static shot, but during fast motion, the difference explodes.\nBecause the encoder must decide, frame by frame, how much to trust motion prediction vs. raw data.\n🧠 So What’s the Secret? Compression isn’t just saving space — it’s about trust.\nThe codec trusts motion estimation to fill gaps. The encoder trusts your eyes not to notice tiny lies. The system trusts bandwidth to deliver frames fast enough. If any of those break, you see it — in smears, blocks, or ghosting trails.\n💡 Final Thought The next time you see a perfectly smooth video stream, remember: You’re not watching “reality.”\nYou’re watching a mathematical illusion, tuned for your vision, your screen, and your patience.\nAnd that illusion — balancing bits, motion, and perception — is one of the most beautiful hacks in computer science.\n",
+  "wordCount" : "501",
+  "inLanguage": "en",
+  "datePublished": "2025-11-02T16:56:43+07:00",
+  "dateModified": "2025-11-02T16:56:43+07:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hthanh12.github.io/posts/the-secret-trade-off-in-video/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "hthanh12's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hthanh12.github.io/favicon.ico"
+    }
+  }
+}
 </script>
 </head>
 <body id="top">
     <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="hthanh12&#39;s blog (Alt + H)">hthanh12&#39;s blog</a>
+            <a href="https://hthanh12.github.io/" accesskey="h" title="hthanh12&#39;s blog (Alt + H)">hthanh12&#39;s blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -102,22 +168,22 @@
         </div>
         <ul id="menu">
             <li>
-                <a href="http://localhost:1313/" title="Home">
+                <a href="https://hthanh12.github.io/" title="Home">
                     <span>Home</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/about/" title="About Me">
+                <a href="https://hthanh12.github.io/about/" title="About Me">
                     <span>About Me</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/tags/" title="Tags">
+                <a href="https://hthanh12.github.io/tags/" title="Tags">
                     <span>Tags</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/archive/" title="Archive">
+                <a href="https://hthanh12.github.io/archive/" title="Archive">
                     <span>Archive</span>
                 </a>
             </li>
@@ -128,7 +194,7 @@
 
 <article class="post-single">
   <header class="post-header">
-    <div class="breadcrumbs"><a href="http://localhost:1313/">Home</a>&nbsp;»&nbsp;<a href="http://localhost:1313/posts/">Posts</a></div>
+    <div class="breadcrumbs"><a href="https://hthanh12.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://hthanh12.github.io/posts/">Posts</a></div>
     <h1 class="post-title entry-hint-parent">
       The Secret Trade-Off in Video Compression: Bits, Motion, and Human Vision
     </h1>
@@ -229,18 +295,18 @@ You’re watching a <strong>mathematical illusion</strong>, tuned for your visio
 
   <footer class="post-footer">
     <ul class="post-tags">
-      <li><a href="http://localhost:1313/tags/video/">Video</a></li>
-      <li><a href="http://localhost:1313/tags/codec/">Codec</a></li>
-      <li><a href="http://localhost:1313/tags/compression/">Compression</a></li>
-      <li><a href="http://localhost:1313/tags/media/">Media</a></li>
+      <li><a href="https://hthanh12.github.io/tags/video/">Video</a></li>
+      <li><a href="https://hthanh12.github.io/tags/codec/">Codec</a></li>
+      <li><a href="https://hthanh12.github.io/tags/compression/">Compression</a></li>
+      <li><a href="https://hthanh12.github.io/tags/media/">Media</a></li>
     </ul>
 <nav class="paginav">
-  <a class="prev" href="http://localhost:1313/posts/headobject-vs-getobject/">
+  <a class="prev" href="https://hthanh12.github.io/posts/headobject-vs-getobject/">
     <span class="title">« Prev</span>
     <br>
     <span>HeadObjectCommand vs GetObjectCommand in AWS SDK</span>
   </a>
-  <a class="next" href="http://localhost:1313/posts/my-first-post/">
+  <a class="next" href="https://hthanh12.github.io/posts/my-first-post/">
     <span class="title">Next »</span>
     <br>
     <span>Understanding MIME Types and File Extensions</span>
@@ -252,7 +318,7 @@ You’re watching a <strong>mathematical illusion</strong>, tuned for your visio
     </main>
     
 <footer class="footer">
-        <span>&copy; 2025 <a href="http://localhost:1313/">hthanh12&#39;s blog</a></span> · 
+        <span>&copy; 2025 <a href="https://hthanh12.github.io/">hthanh12&#39;s blog</a></span> · 
 
     <span>
         Powered by

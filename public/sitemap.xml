@@ -2,71 +2,74 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:1313/tags/aws/</loc>
+    <loc>https://hthanh12.github.io/</loc>
+    <lastmod>2025-11-07T22:09:19+07:00</lastmod>
+  </url><url>
+    <loc>https://hthanh12.github.io/posts/upload-video/</loc>
+    <lastmod>2025-11-07T22:09:19+07:00</lastmod>
+  </url><url>
+    <loc>https://hthanh12.github.io/posts/</loc>
+    <lastmod>2025-11-07T22:09:19+07:00</lastmod>
+  </url><url>
+    <loc>https://hthanh12.github.io/tags/aws/</loc>
     <lastmod>2025-11-06T23:40:28+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/backend/</loc>
+    <loc>https://hthanh12.github.io/tags/backend/</loc>
     <lastmod>2025-11-06T23:40:28+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/dev-notes/</loc>
+    <loc>https://hthanh12.github.io/tags/dev-notes/</loc>
     <lastmod>2025-11-06T23:40:28+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/headobject-vs-getobject/</loc>
+    <loc>https://hthanh12.github.io/posts/headobject-vs-getobject/</loc>
     <lastmod>2025-11-06T23:40:28+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/</loc>
+    <loc>https://hthanh12.github.io/tags/media-service/</loc>
     <lastmod>2025-11-06T23:40:28+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/media-service/</loc>
+    <loc>https://hthanh12.github.io/tags/node.js/</loc>
     <lastmod>2025-11-06T23:40:28+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/node.js/</loc>
+    <loc>https://hthanh12.github.io/tags/s3/</loc>
     <lastmod>2025-11-06T23:40:28+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/</loc>
+    <loc>https://hthanh12.github.io/tags/</loc>
     <lastmod>2025-11-06T23:40:28+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/s3/</loc>
-    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/tags/</loc>
-    <lastmod>2025-11-06T23:40:28+07:00</lastmod>
-  </url><url>
-    <loc>http://localhost:1313/categories/</loc>
+    <loc>https://hthanh12.github.io/categories/</loc>
     <lastmod>2025-11-02T16:56:43+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/codec/</loc>
+    <loc>https://hthanh12.github.io/tags/codec/</loc>
     <lastmod>2025-11-02T16:56:43+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/compression/</loc>
+    <loc>https://hthanh12.github.io/tags/compression/</loc>
     <lastmod>2025-11-02T16:56:43+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/media/</loc>
+    <loc>https://hthanh12.github.io/tags/media/</loc>
     <lastmod>2025-11-02T16:56:43+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/categories/media-tech-deep-dive/</loc>
+    <loc>https://hthanh12.github.io/categories/media-tech-deep-dive/</loc>
     <lastmod>2025-11-02T16:56:43+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/the-secret-trade-off-in-video/</loc>
+    <loc>https://hthanh12.github.io/posts/the-secret-trade-off-in-video/</loc>
     <lastmod>2025-11-02T16:56:43+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/video/</loc>
+    <loc>https://hthanh12.github.io/tags/video/</loc>
     <lastmod>2025-11-02T16:56:43+07:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/mimetype/</loc>
+    <loc>https://hthanh12.github.io/tags/mimetype/</loc>
     <lastmod>2025-10-30T16:45:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/programming/</loc>
+    <loc>https://hthanh12.github.io/tags/programming/</loc>
     <lastmod>2025-10-30T16:45:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/posts/my-first-post/</loc>
+    <loc>https://hthanh12.github.io/posts/my-first-post/</loc>
     <lastmod>2025-10-30T16:45:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/tags/web/</loc>
+    <loc>https://hthanh12.github.io/tags/web/</loc>
     <lastmod>2025-10-30T16:45:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:1313/about/</loc>
+    <loc>https://hthanh12.github.io/about/</loc>
   </url><url>
-    <loc>http://localhost:1313/archive/</loc>
+    <loc>https://hthanh12.github.io/archive/</loc>
   </url>
 </urlset>
