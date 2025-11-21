@@ -2,13 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://hthanh12.github.io/</loc>
-    <lastmod>2025-11-07T22:09:19+07:00</lastmod>
+    <loc>https://hthanh12.github.io/posts/detect-mimetype/</loc>
+    <lastmod>2025-11-22T01:02:36+07:00</lastmod>
   </url><url>
-    <loc>https://hthanh12.github.io/posts/upload-video/</loc>
-    <lastmod>2025-11-07T22:09:19+07:00</lastmod>
+    <loc>https://hthanh12.github.io/</loc>
+    <lastmod>2025-11-22T01:02:36+07:00</lastmod>
   </url><url>
     <loc>https://hthanh12.github.io/posts/</loc>
+    <lastmod>2025-11-22T01:02:36+07:00</lastmod>
+  </url><url>
+    <loc>https://hthanh12.github.io/posts/upload-video/</loc>
     <lastmod>2025-11-07T22:09:19+07:00</lastmod>
   </url><url>
     <loc>https://hthanh12.github.io/tags/aws/</loc>

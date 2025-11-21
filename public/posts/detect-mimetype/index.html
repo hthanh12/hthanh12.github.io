@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>How to Detect MIME Types in Node.js: `file-type` vs Linux `file` (and the 5MB Rule) | hthanh12&#39;s blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="Detecting the correct MIME type is critical when processing uploads, generating thumbnails, validating content, or securing your storage pipeline. In Node.js, developers usually choose between two common approaches:
+
+file-type library → detect MIME from buffer
+Linux file command → detect MIME from file path
+
+Both methods work well—but not for the same scenarios.
+This guide shows you the differences, the performance impact, and a best-practice hybrid method using the 5MB rule.">
+<meta name="author" content="">
+<link rel="canonical" href="https://hthanh12.github.io/posts/detect-mimetype/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.343cc480b9ffc8f04ccbe5e968ad674880cab773ec19905e93033065c1e7a804.css" integrity="sha256-NDzEgLn/yPBMy&#43;XpaK1nSIDKt3PsGZBekwMwZcHnqAQ=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://hthanh12.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://hthanh12.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://hthanh12.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://hthanh12.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://hthanh12.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://hthanh12.github.io/posts/detect-mimetype/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            .list::-webkit-scrollbar-thumb {
+                border-color: var(--code-bg);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://hthanh12.github.io/posts/detect-mimetype/">
+  <meta property="og:site_name" content="hthanh12&#39;s blog">
+  <meta property="og:title" content="How to Detect MIME Types in Node.js: `file-type` vs Linux `file` (and the 5MB Rule)">
+  <meta property="og:description" content="Detecting the correct MIME type is critical when processing uploads, generating thumbnails, validating content, or securing your storage pipeline. In Node.js, developers usually choose between two common approaches:
+file-type library → detect MIME from buffer Linux file command → detect MIME from file path Both methods work well—but not for the same scenarios.
+This guide shows you the differences, the performance impact, and a best-practice hybrid method using the 5MB rule.">
+  <meta property="og:locale" content="en-us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-22T01:02:36+07:00">
+    <meta property="article:modified_time" content="2025-11-22T01:02:36+07:00">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to Detect MIME Types in Node.js: `file-type` vs Linux `file` (and the 5MB Rule)">
+<meta name="twitter:description" content="Detecting the correct MIME type is critical when processing uploads, generating thumbnails, validating content, or securing your storage pipeline. In Node.js, developers usually choose between two common approaches:
+
+file-type library → detect MIME from buffer
+Linux file command → detect MIME from file path
+
+Both methods work well—but not for the same scenarios.
+This guide shows you the differences, the performance impact, and a best-practice hybrid method using the 5MB rule.">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://hthanh12.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "How to Detect MIME Types in Node.js: `file-type` vs Linux `file` (and the 5MB Rule)",
+      "item": "https://hthanh12.github.io/posts/detect-mimetype/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "How to Detect MIME Types in Node.js: `file-type` vs Linux `file` (and the 5MB Rule)",
+  "name": "How to Detect MIME Types in Node.js: \u0060file-type\u0060 vs Linux \u0060file\u0060 (and the 5MB Rule)",
+  "description": "Detecting the correct MIME type is critical when processing uploads, generating thumbnails, validating content, or securing your storage pipeline. In Node.js, developers usually choose between two common approaches:\nfile-type library → detect MIME from buffer Linux file command → detect MIME from file path Both methods work well—but not for the same scenarios.\nThis guide shows you the differences, the performance impact, and a best-practice hybrid method using the 5MB rule.\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "Detecting the correct MIME type is critical when processing uploads, generating thumbnails, validating content, or securing your storage pipeline. In Node.js, developers usually choose between two common approaches:\nfile-type library → detect MIME from buffer Linux file command → detect MIME from file path Both methods work well—but not for the same scenarios.\nThis guide shows you the differences, the performance impact, and a best-practice hybrid method using the 5MB rule.\nWhy Two Methods? Because:\nfile-type (buffer) is fast, cross-platform, but requires loading file bytes into memory. Linux file (shell command) is memory-safe for large files and extremely accurate—but slower due to I/O + process spawn. So the ideal solution is combining both.\n1. file-type — Detecting MIME from Buffer file-type works by scanning only the magic bytes of the file buffer.\n✔ Pros Very fast (microseconds) No external dependencies Works on all OS Doesn’t require reading the whole file to disk ✘ Cons You must load bytes into memory → Bad for large files Doesn’t work if you only know the file path Limited support for some formats import { fromBuffer } from \"file-type\"; const info = await fromBuffer(buffer); 2. Linux file — Detecting MIME from Path Linux provides an extremely accurate MIME detector:\nfile --mime-type -b /path/to/file ✔ Pros Very accurate Memory-safe for large files Works even when file is already saved on disk ✘ Cons Requires spawning a child process → slower Linux-only (not ideal for Windows dev) Adds OS dependency The 5MB Best Practice Rule Use buffer detection (file-type) when file \u003c 5MB → Fast, lightweight, ideal for most uploads.\nUse Linux detection when file ≥ 5MB → Avoids loading huge files into RAM.\n→ More stable for high-throughput applications.\nWhy 5MB? Most servers operate with memory-sensitive constraints. Files larger than 5MB:\nIncrease V8 memory pressure Trigger garbage collection more often Slow down the event loop Risk out-of-memory when multiple uploads run concurrently 5MB is a safe threshold used in many production systems (but can be adjusted).\n3. Hybrid Utility Function import { fromBuffer } from \"file-type\"; import { spawnSync } from \"child_process\"; import fs from \"fs\"; const THRESHOLD = 5 * 1024 * 1024; // 5MB export async function detectMimeSmart(filePath: string) { const stats = fs.statSync(filePath); // Case 1: \u003c 5MB → use file-type (buffer) if (stats.size \u003c THRESHOLD) { const buffer = fs.readFileSync(filePath); const type = await fromBuffer(buffer); if (type?.mime) return type.mime; } // Case 2: \u003e= 5MB → use Linux `file` const result = spawnSync(\"file\", [\"--mime-type\", \"-b\", filePath]); return result.stdout.toString().trim(); } 4. When Should You NOT Use file-type? Avoid buffer detection when:\nFiles can be hundreds of MB or GB Users upload videos, RAW images, or large ZIPs Running on memory-restricted systems (AWS Lambda, K8s pods, serverless) 5. When Should You Use Linux file? Use Linux file for:\nLarge uploads (≥ 5MB) Background thumbnail jobs Batch processing Microservices that run on Ubuntu/Debian Final Recommendation File Size Method Reason \u003c 5MB file-type (buffer) Fast, efficient ≥ 5MB Linux file No RAM overhead, safer This hybrid approach gives you:\n⚡ Best performance 🔒 Best memory safety 🎯 Best accuracy ",
+  "wordCount" : "514",
+  "inLanguage": "en",
+  "datePublished": "2025-11-22T01:02:36+07:00",
+  "dateModified": "2025-11-22T01:02:36+07:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://hthanh12.github.io/posts/detect-mimetype/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "hthanh12's blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://hthanh12.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://hthanh12.github.io/" accesskey="h" title="hthanh12&#39;s blog (Alt + H)">hthanh12&#39;s blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+            <li>
+                <a href="https://hthanh12.github.io/" title="Home">
+                    <span>Home</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hthanh12.github.io/about/" title="About Me">
+                    <span>About Me</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hthanh12.github.io/tags/" title="Tags">
+                    <span>Tags</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://hthanh12.github.io/archive/" title="Archive">
+                    <span>Archive</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <div class="breadcrumbs"><a href="https://hthanh12.github.io/">Home</a>&nbsp;»&nbsp;<a href="https://hthanh12.github.io/posts/">Posts</a></div>
+    <h1 class="post-title entry-hint-parent">
+      How to Detect MIME Types in Node.js: `file-type` vs Linux `file` (and the 5MB Rule)
+    </h1>
+    <div class="post-meta"><span title='2025-11-22 01:02:36 +0700 +07'>November 22, 2025</span>&nbsp;·&nbsp;<span>3 min</span>
+
+</div>
+  </header> <div class="toc">
+    <details  open>
+        <summary accesskey="c" title="(Alt + C)">
+            <span class="details">Table of Contents</span>
+        </summary>
+
+        <div class="inner"><ul><ul>
+                <li>
+                    <a href="#why-two-methods" aria-label="Why Two Methods?">Why Two Methods?</a></li></ul>
+                    
+                <li>
+                    <a href="#1-file-type--detecting-mime-from-buffer" aria-label="1. file-type — Detecting MIME from Buffer">1. file-type — Detecting MIME from Buffer</a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#-pros" aria-label="✔ Pros">✔ Pros</a></li>
+                <li>
+                    <a href="#-cons" aria-label="✘ Cons">✘ Cons</a></li></ul>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#2-linux-file--detecting-mime-from-path" aria-label="2. Linux file — Detecting MIME from Path">2. Linux file — Detecting MIME from Path</a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#-pros-1" aria-label="✔ Pros">✔ Pros</a></li>
+                <li>
+                    <a href="#-cons-1" aria-label="✘ Cons">✘ Cons</a></li></ul>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#the-5mb-best-practice-rule" aria-label="The 5MB Best Practice Rule">The 5MB Best Practice Rule</a><ul>
+                        <ul>
+                        
+                <li>
+                    <a href="#use-buffer-detection-" aria-label="Use buffer detection (file-type) when file &lt; 5MB">Use buffer detection (file-type) when file &lt; 5MB</a></li>
+                <li>
+                    <a href="#use-linux-detection-when-file--5mb" aria-label="Use Linux detection when file ≥ 5MB">Use Linux detection when file ≥ 5MB</a></li>
+                <li>
+                    <a href="#why-5mb" aria-label="Why 5MB?">Why 5MB?</a></li></ul>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#3-hybrid-utility-function" aria-label="3. Hybrid Utility Function">3. Hybrid Utility Function</a></li>
+                <li>
+                    <a href="#4-when-should-you-not-use-file-type" aria-label="4. When Should You NOT Use file-type?">4. When Should You NOT Use file-type?</a></li>
+                <li>
+                    <a href="#5-when-should-you-use-linux-file" aria-label="5. When Should You Use Linux file?">5. When Should You Use Linux file?</a><ul>
+                        
+                <li>
+                    <a href="#final-recommendation" aria-label="Final Recommendation">Final Recommendation</a>
+                </li>
+            </ul>
+            </li>
+            </ul>
+        </div>
+    </details>
+</div>
+
+  <div class="post-content"><p>Detecting the correct MIME type is critical when processing uploads, generating thumbnails, validating content, or securing your storage pipeline. In Node.js, developers usually choose between two common approaches:</p>
+<ol>
+<li><strong><code>file-type</code> library</strong> → detect MIME from <strong>buffer</strong></li>
+<li><strong>Linux <code>file</code> command</strong> → detect MIME from <strong>file path</strong></li>
+</ol>
+<p>Both methods work well—but <em>not</em> for the same scenarios.<br>
+This guide shows you the differences, the performance impact, and a <strong>best-practice hybrid method using the 5MB rule</strong>.</p>
+<hr>
+<h2 id="why-two-methods">Why Two Methods?<a hidden class="anchor" aria-hidden="true" href="#why-two-methods">#</a></h2>
+<p>Because:</p>
+<ul>
+<li><strong><code>file-type</code> (buffer)</strong> is <em>fast</em>, <em>cross-platform</em>, but requires loading file bytes into memory.</li>
+<li><strong>Linux <code>file</code> (shell command)</strong> is <em>memory-safe</em> for large files and extremely accurate—but slower due to I/O + process spawn.</li>
+</ul>
+<p>So the ideal solution is <strong>combining both</strong>.</p>
+<hr>
+<h1 id="1-file-type--detecting-mime-from-buffer">1. <code>file-type</code> — Detecting MIME from Buffer<a hidden class="anchor" aria-hidden="true" href="#1-file-type--detecting-mime-from-buffer">#</a></h1>
+<p><code>file-type</code> works by scanning only the <strong>magic bytes</strong> of the file buffer.</p>
+<h3 id="-pros">✔ Pros<a hidden class="anchor" aria-hidden="true" href="#-pros">#</a></h3>
+<ul>
+<li>Very fast (microseconds)</li>
+<li>No external dependencies</li>
+<li>Works on all OS</li>
+<li>Doesn&rsquo;t require reading the whole file to disk</li>
+</ul>
+<h3 id="-cons">✘ Cons<a hidden class="anchor" aria-hidden="true" href="#-cons">#</a></h3>
+<ul>
+<li>You must load bytes into memory → <strong>Bad for large files</strong></li>
+<li>Doesn’t work if you only know the file path</li>
+<li>Limited support for some formats</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">fromBuffer</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;file-type&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">info</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fromBuffer</span>(<span style="color:#a6e22e">buffer</span>);
+</span></span></code></pre></div><hr>
+<h1 id="2-linux-file--detecting-mime-from-path">2. Linux <code>file</code> — Detecting MIME from Path<a hidden class="anchor" aria-hidden="true" href="#2-linux-file--detecting-mime-from-path">#</a></h1>
+<p>Linux provides an extremely accurate MIME detector:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>file --mime-type -b /path/to/file
+</span></span></code></pre></div><h3 id="-pros-1">✔ Pros<a hidden class="anchor" aria-hidden="true" href="#-pros-1">#</a></h3>
+<ul>
+<li>Very accurate</li>
+<li>Memory-safe for large files</li>
+<li>Works even when file is already saved on disk</li>
+</ul>
+<h3 id="-cons-1">✘ Cons<a hidden class="anchor" aria-hidden="true" href="#-cons-1">#</a></h3>
+<ul>
+<li>Requires spawning a child process → slower</li>
+<li>Linux-only (not ideal for Windows dev)</li>
+<li>Adds OS dependency</li>
+</ul>
+<hr>
+<h1 id="the-5mb-best-practice-rule">The 5MB Best Practice Rule<a hidden class="anchor" aria-hidden="true" href="#the-5mb-best-practice-rule">#</a></h1>
+<h3 id="use-buffer-detection-"><strong>Use buffer detection (<code>file-type</code>) when file &lt; 5MB</strong><a hidden class="anchor" aria-hidden="true" href="#use-buffer-detection-">#</a></h3>
+<p>→ Fast, lightweight, ideal for most uploads.</p>
+<h3 id="use-linux-detection-when-file--5mb"><strong>Use Linux detection when file ≥ 5MB</strong><a hidden class="anchor" aria-hidden="true" href="#use-linux-detection-when-file--5mb">#</a></h3>
+<p>→ Avoids loading huge files into RAM.<br>
+→ More stable for high-throughput applications.</p>
+<h3 id="why-5mb">Why 5MB?<a hidden class="anchor" aria-hidden="true" href="#why-5mb">#</a></h3>
+<p>Most servers operate with memory-sensitive constraints. Files larger than 5MB:</p>
+<ul>
+<li>Increase V8 memory pressure</li>
+<li>Trigger garbage collection more often</li>
+<li>Slow down the event loop</li>
+<li>Risk out-of-memory when multiple uploads run concurrently</li>
+</ul>
+<p>5MB is a safe threshold used in many production systems (but can be adjusted).</p>
+<hr>
+<h1 id="3-hybrid-utility-function">3. Hybrid Utility Function<a hidden class="anchor" aria-hidden="true" href="#3-hybrid-utility-function">#</a></h1>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-ts" data-lang="ts"><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">fromBuffer</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;file-type&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> { <span style="color:#a6e22e">spawnSync</span> } <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;child_process&#34;</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">import</span> <span style="color:#a6e22e">fs</span> <span style="color:#66d9ef">from</span> <span style="color:#e6db74">&#34;fs&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#a6e22e">THRESHOLD</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1024</span>; <span style="color:#75715e">// 5MB
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">async</span> <span style="color:#66d9ef">function</span> <span style="color:#a6e22e">detectMimeSmart</span>(<span style="color:#a6e22e">filePath</span>: <span style="color:#66d9ef">string</span>) {
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">stats</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fs</span>.<span style="color:#a6e22e">statSync</span>(<span style="color:#a6e22e">filePath</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Case 1: &lt; 5MB → use file-type (buffer)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">stats</span>.<span style="color:#a6e22e">size</span> <span style="color:#f92672">&lt;</span> <span style="color:#a6e22e">THRESHOLD</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">buffer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">fs</span>.<span style="color:#a6e22e">readFileSync</span>(<span style="color:#a6e22e">filePath</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">type</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">fromBuffer</span>(<span style="color:#a6e22e">buffer</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">type</span><span style="color:#f92672">?</span>.<span style="color:#a6e22e">mime</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">type</span>.<span style="color:#a6e22e">mime</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// Case 2: &gt;= 5MB → use Linux `file`
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">result</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">spawnSync</span>(<span style="color:#e6db74">&#34;file&#34;</span>, [<span style="color:#e6db74">&#34;--mime-type&#34;</span>, <span style="color:#e6db74">&#34;-b&#34;</span>, <span style="color:#a6e22e">filePath</span>]);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">stdout</span>.<span style="color:#a6e22e">toString</span>().<span style="color:#a6e22e">trim</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h1 id="4-when-should-you-not-use-file-type">4. When Should You NOT Use <code>file-type</code>?<a hidden class="anchor" aria-hidden="true" href="#4-when-should-you-not-use-file-type">#</a></h1>
+<p>Avoid buffer detection when:</p>
+<ul>
+<li>Files can be <strong>hundreds of MB or GB</strong></li>
+<li>Users upload <strong>videos</strong>, <strong>RAW images</strong>, or <strong>large ZIPs</strong></li>
+<li>Running on memory-restricted systems (AWS Lambda, K8s pods, serverless)</li>
+</ul>
+<hr>
+<h1 id="5-when-should-you-use-linux-file">5. When Should You Use Linux <code>file</code>?<a hidden class="anchor" aria-hidden="true" href="#5-when-should-you-use-linux-file">#</a></h1>
+<p>Use Linux <code>file</code> for:</p>
+<ul>
+<li>Large uploads (≥ 5MB)</li>
+<li>Background thumbnail jobs</li>
+<li>Batch processing</li>
+<li>Microservices that run on Ubuntu/Debian</li>
+</ul>
+<hr>
+<h2 id="final-recommendation">Final Recommendation<a hidden class="anchor" aria-hidden="true" href="#final-recommendation">#</a></h2>
+<table>
+  <thead>
+      <tr>
+          <th>File Size</th>
+          <th>Method</th>
+          <th>Reason</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>&lt; 5MB</code></td>
+          <td><code>file-type</code> (buffer)</td>
+          <td>Fast, efficient</td>
+      </tr>
+      <tr>
+          <td><code>≥ 5MB</code></td>
+          <td>Linux <code>file</code></td>
+          <td>No RAM overhead, safer</td>
+      </tr>
+  </tbody>
+</table>
+<p>This hybrid approach gives you:</p>
+<ul>
+<li>⚡ Best performance</li>
+<li>🔒 Best memory safety</li>
+<li>🎯 Best accuracy</li>
+</ul>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://hthanh12.github.io/posts/upload-video/">
+    <span class="title">Next »</span>
+    <br>
+    <span>Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2025 <a href="https://hthanh12.github.io/">hthanh12&#39;s blog</a></span> · 
+
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

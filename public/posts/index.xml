@@ -6,8 +6,21 @@
     <description>Recent content in Posts on hthanh12&#39;s blog</description>
     <generator>Hugo -- 0.152.2</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 07 Nov 2025 22:09:19 +0700</lastBuildDate>
+    <lastBuildDate>Sat, 22 Nov 2025 01:02:36 +0700</lastBuildDate>
     <atom:link href="https://hthanh12.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>How to Detect MIME Types in Node.js: `file-type` vs Linux `file` (and the 5MB Rule)</title>
+      <link>https://hthanh12.github.io/posts/detect-mimetype/</link>
+      <pubDate>Sat, 22 Nov 2025 01:02:36 +0700</pubDate>
+      <guid>https://hthanh12.github.io/posts/detect-mimetype/</guid>
+      <description>&lt;p&gt;Detecting the correct MIME type is critical when processing uploads, generating thumbnails, validating content, or securing your storage pipeline. In Node.js, developers usually choose between two common approaches:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;file-type&lt;/code&gt; library&lt;/strong&gt; → detect MIME from &lt;strong&gt;buffer&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Linux &lt;code&gt;file&lt;/code&gt; command&lt;/strong&gt; → detect MIME from &lt;strong&gt;file path&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Both methods work well—but &lt;em&gt;not&lt;/em&gt; for the same scenarios.&lt;br&gt;
+This guide shows you the differences, the performance impact, and a &lt;strong&gt;best-practice hybrid method using the 5MB rule&lt;/strong&gt;.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Optimizing Video Uploads: Multipart Upload, Pre-Signed URLs, and S3 Events</title>
       <link>https://hthanh12.github.io/posts/upload-video/</link>
